@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Pessoal | UFRJ & Treinos</title>
+    <!-- Vincula o arquivo de estilos -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Agenda</h1>
+    </header>
+
+    <div class="dashboard">
+        
+        <!-- Painel Esquerdo: Grade Fixa de Horários -->
+        <div class="panel">
+            <h2>Grade de Horários Fixos</h2>
+            <div class="schedule-grid">
+                
+                <!-- Segunda-feira -->
+                <div class="day-card">
+                    <div class="day-title">Segunda</div>
+                    <div class="event commute"></div>
+                    <div class="event class"></div>
+                    <div class="event commute"></div>
+                </div>
+
+                <!-- Terça-feira -->
+                <div class="day-card">
+                    <div class="day-title">Terça</div>
+                    <div class="event commute"></div>
+                    <div class="event class"></div>
+                    <div class="event commute"></div>
+                </div>
+
+                <!-- Quarta-feira -->
+                <div class="day-card">
+                    <div class="day-title">Quarta</div>
+                    <div class="event commute"></div>
+                    <div class="event class"></div>
+                    <div class="event commute"></div>
+                </div>
+
+                <!-- Quinta-feira -->
+                <div class="day-card">
+                    <div class="day-title">Quinta</div>
+                    <div class="event commute"></div>
+                    <div class="event class"></div>
+                    <div class="event commute"></div>
+                </div>
+
+                <!-- Sexta-feira -->
+                <div class="day-card">
+                    <div class="day-title">Sexta</div>
+                    <div class="event commute"></div>
+                    <div class="event class"></div>
+                    <div class="event commute"></div>
+                </div>
+
+                <!-- Sábado -->
+                <div class="day-card">
+                    <div class="day-title">Sábado</div>
+                    <div class="event commute"></div>
+                    <div class="event class"></div>
+                    <div class="event commute"></div>
+                </div>
+
+                <!-- Domingo -->
+                <div class="day-card">
+                    <div class="day-title">Domingo</div>
+                    <div class="event commute"></div>
+                    <div class="event class"></div>
+                    <div class="event commute"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Painel Direito: Listas Dinâmicas -->
+        <div class="list-container">
+            
+            <!-- To-Do List -->
+            <div class="panel">
+                <h2>Tarefas Flexíveis (To-Do)</h2>
+                <div class="input-group">
+                    <input type="text" id="todo-input" placeholder="" onkeypress="handleKeyPress(event, 'todo')">
+                    <button class="add-btn" onclick="addItem('todo')">Add</button>
+                </div>
+                <ul id="todo-list"></ul>
+            </div>
+
+            <!-- Lista de Compras / Logística -->
+            <div class="panel">
+                <h2>Logística & Compras</h2>
+                <div class="input-group">
+                    <input type="text" id="shop-input" placeholder="" onkeypress="handleKeyPress(event, 'shop')">
+                    <button class="add-btn" style="background-color: var(--accent-green);" onclick="addItem('shop')">Add</button>
+                </div>
+                <ul id="shop-list"></ul>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Vincula o arquivo de script -->
+    <script src="script.js"></script>
+</body>
+</html>
