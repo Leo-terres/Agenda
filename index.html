@@ -4,108 +4,159 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Pessoal | UFRJ & Treinos</title>
-    <!-- Vincula o arquivo de estilos -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1>Agenda</h1>
+        <h1>Minha Agenda Pessoal</h1>
+        <p>Rotina, Universidade e Treinos</p>
     </header>
 
-    <div class="dashboard">
+    <!-- Menu Principal -->
+    <div id="main-menu" class="view-section">
+        <button class="menu-btn" onclick="openView('schedule-view')">
+            📅 Ver Horários Fixos
+        </button>
+        <button class="menu-btn" onclick="openView('todo-view')">
+            ✅ Ver Tarefas (To-Do)
+        </button>
+        <button class="menu-btn" onclick="openView('shop-view')">
+            🛒 Logística & Compras
+        </button>
+    </div>
+
+    <!-- Tela 1: Grade de Horários (Dinâmica) -->
+    <div id="schedule-view" class="view-section hidden">
+        <button class="back-btn" onclick="openView('main-menu')">⬅ Voltar ao Menu</button>
         
-        <!-- Painel Esquerdo: Grade Fixa de Horários -->
-        <div class="panel">
-            <h2>Grade de Horários Fixos</h2>
-            <div class="schedule-grid">
+        <!-- Formulário para Adicionar Novo Horário -->
+        <div class="panel" style="margin-bottom: 20px;">
+            <h2>➕ Adicionar Novo Horário</h2>
+            <div class="add-event-form">
                 
-                <!-- Segunda-feira -->
-                <div class="day-card">
-                    <div class="day-title">Segunda</div>
-                    <div class="event commute"></div>
-                    <div class="event class"></div>
-                    <div class="event commute"></div>
+                <input type="time" id="event-start-time" class="form-control" title="Horário de Início" required>
+                <input type="time" id="event-end-time" class="form-control" title="Horário de Fim" required>
+                <input type="text" id="event-name" class="form-control" placeholder="Ex: Estudo de C">
+                
+                <!-- Dropdown Customizado de Dias -->
+                <div class="custom-multi-select" id="day-multi-select">
+                    <div class="form-control select-box" onclick="toggleDayDropdown()">
+                        <span id="selected-days-text">📅 Dias</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="dropdown-list" id="day-dropdown-list">
+                        <label class="dropdown-item"><input type="checkbox" name="event-day" value="segunda" onchange="updateSelectedDaysText()"> Segunda-feira</label>
+                        <label class="dropdown-item"><input type="checkbox" name="event-day" value="terca" onchange="updateSelectedDaysText()"> Terça-feira</label>
+                        <label class="dropdown-item"><input type="checkbox" name="event-day" value="quarta" onchange="updateSelectedDaysText()"> Quarta-feira</label>
+                        <label class="dropdown-item"><input type="checkbox" name="event-day" value="quinta" onchange="updateSelectedDaysText()"> Quinta-feira</label>
+                        <label class="dropdown-item"><input type="checkbox" name="event-day" value="sexta" onchange="updateSelectedDaysText()"> Sexta-feira</label>
+                        <label class="dropdown-item"><input type="checkbox" name="event-day" value="sabado" onchange="updateSelectedDaysText()"> Sábado</label>
+                        <label class="dropdown-item"><input type="checkbox" name="event-day" value="domingo" onchange="updateSelectedDaysText()"> Domingo</label>
+                    </div>
                 </div>
 
-                <!-- Terça-feira -->
-                <div class="day-card">
-                    <div class="day-title">Terça</div>
-                    <div class="event commute"></div>
-                    <div class="event class"></div>
-                    <div class="event commute"></div>
+                <select id="event-mode" class="form-control">
+                    <option value="fixo">📌 Fixo</option>
+                    <option value="variavel">🔄 Variável</option>
+                </select>
+
+                <!-- Dropdown Customizado para Categorias -->
+                <div class="custom-multi-select" id="class-custom-select">
+                    <div class="form-control select-box" onclick="toggleClassDropdown()">
+                        <span id="selected-class-text">📌 Padrão (⚪)</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <!-- Guardará a classe selecionada invisível para o JS ler -->
+                    <input type="hidden" id="event-class-id" value="default">
+                    
+                    <div class="dropdown-list" id="class-dropdown-list">
+                        <!-- Preenchido dinamicamente pelo JS -->
+                    </div>
                 </div>
 
-                <!-- Quarta-feira -->
-                <div class="day-card">
-                    <div class="day-title">Quarta</div>
-                    <div class="event commute"></div>
-                    <div class="event class"></div>
-                    <div class="event commute"></div>
-                </div>
-
-                <!-- Quinta-feira -->
-                <div class="day-card">
-                    <div class="day-title">Quinta</div>
-                    <div class="event commute"></div>
-                    <div class="event class"></div>
-                    <div class="event commute"></div>
-                </div>
-
-                <!-- Sexta-feira -->
-                <div class="day-card">
-                    <div class="day-title">Sexta</div>
-                    <div class="event commute"></div>
-                    <div class="event class"></div>
-                    <div class="event commute"></div>
-                </div>
-
-                <!-- Sábado -->
-                <div class="day-card">
-                    <div class="day-title">Sábado</div>
-                    <div class="event commute"></div>
-                    <div class="event class"></div>
-                    <div class="event commute"></div>
-                </div>
-
-                <!-- Domingo -->
-                <div class="day-card">
-                    <div class="day-title">Domingo</div>
-                    <div class="event commute"></div>
-                    <div class="event class"></div>
-                    <div class="event commute"></div>
-                </div>
-
+                <!-- AJUSTE AQUI: O botão agora tem um tamanho fixo e menor -->
+                <button class="add-btn" onclick="addScheduleEvent()" style="flex: none; width: 80px;">Add</button>
             </div>
         </div>
 
-        <!-- Painel Direito: Listas Dinâmicas -->
-        <div class="list-container">
-            
-            <!-- To-Do List -->
-            <div class="panel">
-                <h2>Tarefas Flexíveis (To-Do)</h2>
-                <div class="input-group">
-                    <input type="text" id="todo-input" placeholder="" onkeypress="handleKeyPress(event, 'todo')">
-                    <button class="add-btn" onclick="addItem('todo')">Add</button>
-                </div>
-                <ul id="todo-list"></ul>
-            </div>
-
-            <!-- Lista de Compras / Logística -->
-            <div class="panel">
-                <h2>Logística & Compras</h2>
-                <div class="input-group">
-                    <input type="text" id="shop-input" placeholder="" onkeypress="handleKeyPress(event, 'shop')">
-                    <button class="add-btn" style="background-color: var(--accent-green);" onclick="addItem('shop')">Add</button>
-                </div>
-                <ul id="shop-list"></ul>
-            </div>
-
+        <!-- Painel da Grade -->
+        <div class="panel">
+            <h2>Grade de Horários</h2>
+            <div id="schedule-grid" class="schedule-grid"></div>
         </div>
     </div>
 
-    <!-- Vincula o arquivo de script -->
+    <!-- Tela 2: Tarefas (To-Do) -->
+    <div id="todo-view" class="view-section hidden">
+        <button class="back-btn" onclick="openView('main-menu')">⬅ Voltar ao Menu</button>
+        <div class="panel">
+            <h2>Tarefas Flexíveis (To-Do)</h2>
+            <div class="input-group">
+                <input type="text" id="todo-input" class="form-control" placeholder="Ex: Sessão de musculação..." onkeypress="handleKeyPress(event, 'todo')">
+                <button class="add-btn" onclick="addItem('todo')">Add</button>
+            </div>
+            <ul id="todo-list"></ul>
+        </div>
+    </div>
+
+    <!-- Tela 3: Compras e Logística -->
+    <div id="shop-view" class="view-section hidden">
+        <button class="back-btn" onclick="openView('main-menu')">⬅ Voltar ao Menu</button>
+        <div class="panel">
+            <h2>Logística & Compras</h2>
+            <div class="input-group">
+                <input type="text" id="shop-input" class="form-control" placeholder="Ex: Marmitas, Esparadrapo..." onkeypress="handleKeyPress(event, 'shop')">
+                <button class="add-btn" style="background-color: var(--accent-green);" onclick="addItem('shop')">Add</button>
+            </div>
+            <ul id="shop-list"></ul>
+        </div>
+    </div>
+
+    <!-- MODAL DE CRIAR CLASSE -->
+    <div id="new-class-modal" class="modal hidden">
+        <div class="modal-content panel">
+            <h2 style="border-bottom: none; text-align: center; color: var(--accent-blue);">✨ Nova Categoria</h2>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="text" id="new-class-name" class="form-control" placeholder="Nome (Ex: Fisioterapia, Trabalho)">
+                
+                <div style="display: flex; gap: 10px;">
+                    <select id="new-class-emoji" class="form-control">
+                        <option value="📚">📚 Livros</option>
+                        <option value="🥋">🥋 Kimono</option>
+                        <option value="🏐">🏐 Vôlei</option>
+                        <option value="💪">💪 Academia</option>
+                        <option value="🚌">🚌 Transporte</option>
+                        <option value="💻">💻 Computador</option>
+                        <option value="💼">💼 Maleta</option>
+                        <option value="🍔">🍔 Comida</option>
+                        <option value="🩺">🩺 Saúde</option>
+                        <option value="📌">📌 Pino</option>
+                    </select>
+
+                    <select id="new-class-color" class="form-control">
+                        <!-- Removido o rosa e o ciano -->
+                        <option value="#ef4444">🔴 Vermelho</option>
+                        <option value="#f59e0b">🟠 Laranja</option>
+                        <option value="#eab308">🟡 Amarelo</option>
+                        <option value="#10b981">🟢 Verde</option>
+                        <option value="#3b82f6">🔵 Azul</option>
+                        <option value="#8b5cf6">🟣 Roxo</option>
+                        <option value="#8b4513">🟤 Marrom</option>
+                        <option value="#9e9e9e">⚪ Cinza</option>
+                        <option value="#1f2937">⚫ Preto</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="add-btn" onclick="saveNewClass()" style="flex: 1;">Salvar</button>
+                    <button class="add-btn" onclick="closeClassModal()" style="flex: 1; background-color: var(--hover-bg); color: var(--text-main); border: 1px solid var(--border-color);">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
